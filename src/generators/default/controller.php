@@ -97,17 +97,20 @@ class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->bas
     public function actionView(<?= $actionParams ?>)
     {   
         $request = Yii::$app->request;
-        if($request->isAjax){
+        if($request->isAjax)
+        {
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                    'title'=> "<?= $modelClass ?> #".<?= $actionParams ?>,
-                    'content'=>$this->renderAjax('view', [
-                        'model' => $this->findModel(<?= $actionParams ?>),
-                    ]),
-                    'footer'=> Html::button(Yii::t('yii2-ajaxcrud', 'Close'), ['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a(Yii::t('yii2-ajaxcrud', 'Update'), ['update','<?= substr($actionParams,1) ?>'=><?= $actionParams ?>],['class'=>'btn btn-primary','role'=>'modal-remote'])
-                ];    
-        }else{
+                'title' => "<?= $modelClass ?> #".<?= $actionParams ?>,
+                'content' =>$this->renderAjax('view', [
+                    'model' => $this->findModel(<?= $actionParams ?>),
+                ]),
+                'footer' => Html::button(Yii::t('yii2-ajaxcrud', 'Close'), ['class' => 'btn btn-default pull-left', 'data-dismiss' => 'modal']).
+                    Html::a(Yii::t('yii2-ajaxcrud', 'Update'), ['update', '<?= substr($actionParams,1) ?>' => <?= $actionParams ?>], ['class' => 'btn btn-primary', 'role' => 'modal-remote'])
+            ];
+        }
+        else
+        {
             return $this->render('view', [
                 'model' => $this->findModel(<?= $actionParams ?>),
             ]);
@@ -125,48 +128,56 @@ class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->bas
         $request = Yii::$app->request;
         $model = new <?= $modelClass ?>();  
 
-        if($request->isAjax){
+        if($request->isAjax)
+        {
             /*
             *   Process for ajax request
             */
             Yii::$app->response->format = Response::FORMAT_JSON;
-            if($request->isGet){
+            if($request->isGet)
+            {
                 return [
-                    'title'=> Yii::t('yii2-ajaxcrud', 'Create New')." <?= $modelClass ?>",
-                    'content'=>$this->renderAjax('create', [
+                    'title' => Yii::t('yii2-ajaxcrud', 'Create New')." <?= $modelClass ?>",
+                    'content' => $this->renderAjax('create', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button(Yii::t('yii2-ajaxcrud', 'Close'), ['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button(Yii::t('yii2-ajaxcrud', 'Create'), ['class'=>'btn btn-primary','type'=>"submit"])
-        
-                ];         
-            }else if($model->load($request->post()) && $model->save()){
-                return [
-                    'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> Yii::t('yii2-ajaxcrud', 'Create New')." <?= $modelClass ?>",
-                    'content'=>'<span class="text-success">'.Yii::t('yii2-ajaxcrud', 'Create').' <?= $modelClass ?> '.Yii::t('yii2-ajaxcrud', 'Success').'</span>',
-                    'footer'=> Html::button(Yii::t('yii2-ajaxcrud', 'Close'), ['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a(Yii::t('yii2-ajaxcrud', 'Create More'), ['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
-        
-                ];         
-            }else{           
-                return [
-                    'title'=> Yii::t('yii2-ajaxcrud', 'Create New')." <?= $modelClass ?>",
-                    'content'=>$this->renderAjax('create', [
-                        'model' => $model,
-                    ]),
-                    'footer'=> Html::button(Yii::t('yii2-ajaxcrud', 'Close'), ['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button(Yii::t('yii2-ajaxcrud', 'Save'), ['class'=>'btn btn-primary','type'=>"submit"])
-        
-                ];         
+                    'footer' => Html::button(Yii::t('yii2-ajaxcrud', 'Close'), ['class' => 'btn btn-default pull-left', 'data-dismiss' => 'modal']).
+                        Html::button(Yii::t('yii2-ajaxcrud', 'Create'), ['class' => 'btn btn-primary', 'type' => 'submit'])
+                ];
             }
-        }else{
+            else if($model->load($request->post()) && $model->save())
+            {
+                return [
+                    'forceReload' => '#crud-datatable-pjax',
+                    'title' => Yii::t('yii2-ajaxcrud', 'Create New')." <?= $modelClass ?>",
+                    'content' => '<span class="text-success">'.Yii::t('yii2-ajaxcrud', 'Create').' <?= $modelClass ?> '.Yii::t('yii2-ajaxcrud', 'Success').'</span>',
+                    'footer' =>  Html::button(Yii::t('yii2-ajaxcrud', 'Close'), ['class' => 'btn btn-default pull-left', 'data-dismiss' => 'modal']).
+                        Html::a(Yii::t('yii2-ajaxcrud', 'Create More'), ['create'], ['class' => 'btn btn-primary', 'role' => 'modal-remote'])
+                ];
+            }
+            else
+            {
+                return [
+                    'title' => Yii::t('yii2-ajaxcrud', 'Create New')." <?= $modelClass ?>",
+                    'content' => $this->renderAjax('create', [
+                        'model' => $model,
+                    ]),
+                    'footer' => Html::button(Yii::t('yii2-ajaxcrud', 'Close'), ['class' => 'btn btn-default pull-left', 'data-dismiss' => 'modal']).
+                        Html::button(Yii::t('yii2-ajaxcrud', 'Save'), ['class' => 'btn btn-primary', 'type' => 'submit'])
+                ];
+            }
+        }
+        else
+        {
             /*
             *   Process for non-ajax request
             */
-            if ($model->load($request->post()) && $model->save()) {
+            if ($model->load($request->post()) && $model->save())
+            {
                 return $this->redirect(['view', <?= $urlParams ?>]);
-            } else {
+            }
+            else
+            {
                 return $this->render('create', [
                     'model' => $model,
                 ]);
@@ -187,47 +198,58 @@ class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->bas
         $request = Yii::$app->request;
         $model = $this->findModel(<?= $actionParams ?>);       
 
-        if($request->isAjax){
+        if($request->isAjax)
+        {
             /*
             *   Process for ajax request
             */
             Yii::$app->response->format = Response::FORMAT_JSON;
-            if($request->isGet){
+            if($request->isGet)
+            {
                 return [
-                    'title'=> Yii::t('yii2-ajaxcrud', 'Update')." <?= $modelClass ?> #".<?= $actionParams ?>,
-                    'content'=>$this->renderAjax('update', [
+                    'title' => Yii::t('yii2-ajaxcrud', 'Update')." <?= $modelClass ?> #".<?= $actionParams ?>,
+                    'content' => $this->renderAjax('update', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button(Yii::t('yii2-ajaxcrud', 'Close'), ['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button(Yii::t('yii2-ajaxcrud', 'Save'), ['class'=>'btn btn-primary','type'=>"submit"])
-                ];         
-            }else if($model->load($request->post()) && $model->save()){
-                return [
-                    'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "<?= $modelClass ?> #".<?= $actionParams ?>,
-                    'content'=>$this->renderAjax('view', [
-                        'model' => $model,
-                    ]),
-                    'footer'=> Html::button(Yii::t('yii2-ajaxcrud', 'Close'), ['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a(Yii::t('yii2-ajaxcrud', 'Update'), ['update','<?= substr($actionParams,1) ?>'=><?= $actionParams ?>],['class'=>'btn btn-primary','role'=>'modal-remote'])
-                ];    
-            }else{
-                 return [
-                    'title'=> Yii::t('yii2-ajaxcrud', 'Update')." <?= $modelClass ?> #".<?= $actionParams ?>,
-                    'content'=>$this->renderAjax('update', [
-                        'model' => $model,
-                    ]),
-                    'footer'=> Html::button(Yii::t('yii2-ajaxcrud', 'Close'), ['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button(Yii::t('yii2-ajaxcrud', 'Save'), ['class'=>'btn btn-primary','type'=>"submit"])
-                ];        
+                    'footer' => Html::button(Yii::t('yii2-ajaxcrud', 'Close'), ['class' => 'btn btn-default pull-left', 'data-dismiss' => 'modal']).
+                        Html::button(Yii::t('yii2-ajaxcrud', 'Save'), ['class' => 'btn btn-primary', 'type' => 'submit'])
+                ];   
             }
-        }else{
+            else if($model->load($request->post()) && $model->save())
+            {
+                return [
+                    'forceReload' => '#crud-datatable-pjax',
+                    'title' => "<?= $modelClass ?> #".<?= $actionParams ?>,
+                    'content' => $this->renderAjax('view', [
+                        'model' => $model,
+                    ]),
+                    'footer' => Html::button(Yii::t('yii2-ajaxcrud', 'Close'), ['class' => 'btn btn-default pull-left', 'data-dismiss' => 'modal']).
+                        Html::a(Yii::t('yii2-ajaxcrud', 'Update'), ['update', '<?= substr($actionParams,1) ?>' => <?= $actionParams ?>],['class' => 'btn btn-primary', 'role' => 'modal-remote'])
+                ];
+            }
+            else
+            {
+                 return [
+                    'title' => Yii::t('yii2-ajaxcrud', 'Update')." <?= $modelClass ?> #".<?= $actionParams ?>,
+                    'content' => $this->renderAjax('update', [
+                        'model' => $model,
+                    ]),
+                    'footer' => Html::button(Yii::t('yii2-ajaxcrud', 'Close'), ['class' => 'btn btn-default pull-left', 'data-dismiss' => 'modal']).
+                        Html::button(Yii::t('yii2-ajaxcrud', 'Save'), ['class' => 'btn btn-primary', 'type' => 'submit'])
+                ];
+            }
+        }
+        else
+        {
             /*
             *   Process for non-ajax request
             */
-            if ($model->load($request->post()) && $model->save()) {
+            if ($model->load($request->post()) && $model->save())
+            {
                 return $this->redirect(['view', <?= $urlParams ?>]);
-            } else {
+            }
+            else
+            {
                 return $this->render('update', [
                     'model' => $model,
                 ]);
@@ -247,20 +269,21 @@ class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->bas
         $request = Yii::$app->request;
         $this->findModel(<?= $actionParams ?>)->delete();
 
-        if($request->isAjax){
+        if($request->isAjax)
+        {
             /*
             *   Process for ajax request
             */
             Yii::$app->response->format = Response::FORMAT_JSON;
             return ['forceClose'=>true,'forceReload'=>'#crud-datatable-pjax'];
-        }else{
+        }
+        else
+        {
             /*
             *   Process for non-ajax request
             */
             return $this->redirect(['index']);
         }
-
-
     }
 
      /**
@@ -274,24 +297,27 @@ class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->bas
     {        
         $request = Yii::$app->request;
         $pks = explode(',', $request->post( 'pks' )); // Array or selected records primary keys
-        foreach ( $pks as $pk ) {
+        foreach ( $pks as $pk )
+        {
             $model = $this->findModel($pk);
             $model->delete();
         }
 
-        if($request->isAjax){
+        if($request->isAjax)
+        {
             /*
             *   Process for ajax request
             */
             Yii::$app->response->format = Response::FORMAT_JSON;
             return ['forceClose'=>true,'forceReload'=>'#crud-datatable-pjax'];
-        }else{
+        }
+        else
+        {
             /*
             *   Process for non-ajax request
             */
             return $this->redirect(['index']);
         }
-       
     }
 
     /**
@@ -314,9 +340,12 @@ if (count($pks) === 1) {
     $condition = '[' . implode(', ', $condition) . ']';
 }
 ?>
-        if (($model = <?= $modelClass ?>::findOne(<?= $condition ?>)) !== null) {
+        if (($model = <?= $modelClass ?>::findOne(<?= $condition ?>)) !== null)
+        {
             return $model;
-        } else {
+        }
+        else
+        {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }

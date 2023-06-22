@@ -16,9 +16,9 @@ class BulkButtonWidget extends Widget{
 	
 	public function run(){
 		$content = '<div class="pull-left">'.
-                   '<span class="fa fa-arrow-right"></span>&nbsp;&nbsp;'.Yii::t('yii2-ajaxcrud', 'With selected').'&nbsp;&nbsp;'.
-                   $this->buttons.
-                   '</div>';
+			'<span class="fa fa-arrow-right"></span>&nbsp;&nbsp;'.Yii::t('yii2-ajaxcrud', 'With selected').'&nbsp;&nbsp;'.
+			$this->buttons.
+			'</div>';
 		return $content;
 	}
 }

@@ -29,25 +29,26 @@ class CrudAsset extends AssetBundle
         'yii2ajaxcrud\ajaxcrud\FontAwesomeAsset',
     ];
     
-   public function init() {
-       // In dev mode use non-minified javascripts
-       $this->js = YII_DEBUG ? [
-           'ModalRemote.js',
-           'ajaxcrud.js',
-       ]:[
-           'ModalRemote.min.js',
-           'ajaxcrud.min.js',
-       ];
-
-       parent::init();
-
-      if (!isset(Yii::$app->i18n->translations['yii2-ajaxcrud']))
-      {
-        Yii::$app->i18n->translations['yii2-ajaxcrud'] = [
-          'class' => 'yii\i18n\PhpMessageSource',
-          'basePath' => '@yii2ajaxcrud/ajaxcrud/messages',
-          'sourceLanguage' => 'en',
+    public function init()
+    {
+        // In dev mode use non-minified javascripts
+        $this->js = YII_DEBUG ? [
+            'ModalRemote.js',
+            'ajaxcrud.js',
+        ] : [
+            'ModalRemote.min.js',
+            'ajaxcrud.min.js',
         ];
-      }
-   }
+
+        parent::init();
+
+        if (!isset(Yii::$app->i18n->translations['yii2-ajaxcrud']))
+        {
+            Yii::$app->i18n->translations['yii2-ajaxcrud'] = [
+                'class' => 'yii\i18n\PhpMessageSource',
+                'basePath' => '@yii2ajaxcrud/ajaxcrud/messages',
+                'sourceLanguage' => 'en',
+            ];
+        }
+    }
 }
