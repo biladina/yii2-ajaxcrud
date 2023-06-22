@@ -85,6 +85,13 @@ Add translation to the config
 ]
 ```
 
+Add `bsVersion` to the `params` file
+```php
+return [
+    'bsVersion' => '4.x',
+];
+```
+
 You can then access Gii through the following URL:
 
 http://localhost/path/to/index.php?r=gii
